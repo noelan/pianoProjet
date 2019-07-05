@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block title %} Hello ! {% endblock %}
+{% block body %}
+<body onload="draw()" onmousemove="mousePos()">
+<div class="container-fluid">
+	<div class="row">
+		<h1>Haha</h1>
+	</div>	
+
+</div>
+	<div class="justify-content-center row">
+		{% include 'canvas.html.twig' %}
+	</div>	
+
+<p id="position">ok</p>
+<p id="positionEcran">haha</p>
+</body>	
+{% endblock %}
