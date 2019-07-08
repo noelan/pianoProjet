@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accord index{% endblock %}
+
+{% block body %}
+    <h1>Accord index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for accord in accords %}
+            <tr>
+                <td>{{ accord.id }}</td>
+                <td>{{ accord.name }}</td>
+                <td>
+                    <a href="{{ path('accord_show', {'id': accord.id}) }}">show</a>
+                    <a href="{{ path('accord_edit', {'id': accord.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('accord_new') }}">Create new</a>
+{% endblock %}

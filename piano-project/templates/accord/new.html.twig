@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Accord{% endblock %}
+
+{% block body %}
+    <h1>Ajouter un Accord</h1>
+
+    {{ include('accord/_form.html.twig') }}
+
+    <a href="{{ path('accord_index') }}">back to list</a>
+{% endblock %}

@@ -1,1 +1,122 @@
-		<canvas id="canvas" width="1260" height="450" style="border:solid;"></canvas>
+<canvas id="canvas" width="1260" height="450" style="border:solid;"></canvas>
+
+<script type="text/javascript">
+   
+
+let canvas = document.getElementById('canvas')
+
+function draw() 
+{
+    let notes = ['$do', '$re', '$mi', '$fa', '$sol', '$la', '$si']
+    let x = 0
+    let y = 0
+    let positionCircle = 30
+    let width = 60
+    let height = 450
+    doCircle = canvas.getContext("2d");
+    // doCircle.beginPath();
+    // doCircle.arc(30, 400, 50, 0, 2)
+    // doCircle.stroke()
+    // note blanches
+    // Creation des images quand je clique sur une note
+    for (var i = 0; i < 3; i++) {
+        notes.forEach(function(note) {
+            circle = "circle" + x
+            circle = canvas.getContext('2d');
+            circle.beginPath();
+            circle.arc(positionCircle, 400, 25, 0, 2 * Math.PI);
+            circle.stroke();
+            circle.globalCompositeOperation='darken';
+            circle.font = '15px serif';
+            circle.fillText(note, 20, 405); 
+
+            note = canvas.getContext("2d");
+            note.strokeStyle = "black";
+            note.fillStyle = 'white';
+            note.lineWidth = 0;
+            note.fillRect(x, y, width, height);
+            note.strokeRect(x, y, width, height);
+           
+           
+
+            x += 60
+            positionCircle += 60  
+        })
+    }   
+    x = 40
+    width = 40
+    height = 320
+    let notesD = ['$doD', '$reD', 'faD', 'solD', 'laD']
+    // note noire
+    for (var i = 0; i < 3; i++) {   
+        notesD.forEach(function(note) {
+        let compteur = 0
+        note = canvas.getContext("2d");
+        note.strokeStyle = "white";
+        note.fillStyle = 'black';
+        note.lineWidth = 3;
+        note.fillRect(x, y, width, height)
+        if (x == 100 || x == 340 || x == 520 || x == 760 || x == 940) {
+            x += 120
+        } else {
+            x += 60
+        }
+        compteur ++ 
+    });
+    }
+}
+
+
+// Position des notes par rapport aux canvas
+    canvas.addEventListener('click', function(evt) {
+        var mousePos = getMousePos(canvas,evt);
+        Do = mousePos.x >= 0 && mousePos.x <= 60
+        Re = mousePos.x > 60 && mousePos.x <= 120
+        Mi = mousePos.x > 120 && mousePos.x <= 180
+        Fa = mousePos.x > 180 && mousePos.x <= 240
+        Sol = mousePos.x > 240 && mousePos.x <= 300
+        La = mousePos.x > 300 && mousePos.x <= 360
+        Si = mousePos.x > 360 && mousePos.x <= 420
+        if (Do) {
+            // alert('Do');
+            showNote()
+        }if (Re) {
+            showNote()
+        }if (Mi) {
+            alert('Mi');
+        }if (Fa) {
+            alert('Fa');
+        }if (Sol) {
+            alert('Sol');
+        }if (La) {
+            alert('La');
+        }if (Si) {
+            alert('Si');
+        }
+    }, false );
+    
+
+    // canvas.addEventListener("click", function (evt) {
+    // var mousePos = getMousePos(canvas, evt);
+    // alert(event.clientX + ',' + event.clientY);
+    // }, false);
+    //Get Mouse Position
+    function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
+    };
+    }
+    
+
+    function mousePos() {
+        p = document.getElementById('positionEcran')
+        var mousePos = getMousePos(canvas,event);
+        let xWindow = mousePos.x
+        let yWindow = mousePos.y
+        p.textContent = xWindow + "'" + yWindow
+    }
+
+
+</script>

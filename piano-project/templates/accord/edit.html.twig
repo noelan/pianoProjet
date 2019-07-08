@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Accord{% endblock %}
+
+{% block body %}
+    <h1>Edit Accord</h1>
+
+    {{ include('accord/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('accord_index') }}">back to list</a>
+
+    {{ include('accord/_delete_form.html.twig') }}
+{% endblock %}
