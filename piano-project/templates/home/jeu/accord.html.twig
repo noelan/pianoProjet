@@ -2,10 +2,10 @@
 {% block title %} Hello ! {% endblock %}
 {% block body %}
 <body onload="note()">
-    <p onclick="findMajorChords()" class="btn btn-info">go</p>
     <div class="row justify-content-center">
         <h1>Trouver l'accord majeur</h1>
-        <div onclick="check()" id="piano" style="display:flex;">
+        <p onclick="findMajorChords()" class="btn btn-info">go</p>
+        <div onclick="check(fondamental, tierce, quinte)" id="piano" style="display:flex;">
         </div>
     </div>
 </body>
@@ -75,7 +75,6 @@ function note()
             myNote.style.backgroundColor = "white"; 
             myNote.id = note + i
             myNote.addEventListener("click", function() {
-                console.log(note)
                 let p = document.createElement('p');
                 p.innerHTML = note;
                 p.style.paddingTop = "400px";
@@ -101,7 +100,6 @@ function note()
             myNote.style.border = "solid";
             myNote.id = note + i
             myNote.addEventListener("click", function() {
-                console.log(note)
                 let p = document.createElement('p');
                 p.innerHTML = note;
                 p.style.paddingTop = "300px";
@@ -126,36 +124,92 @@ function note()
     }
 }   
 
-var majorChords = JSON.parse({{ majorChords|json_encode|raw }});
-console.log(majorChords);
+//let majorChords = JSON.parse({{ majorChords|json_encode|raw }});
+let majorChords = {
+                 '1'   : ['Do', 'Mi', 'Sol'],
+                 '2'  : ['Do#', 'Fa', 'Sol#'],
+                 '3'   : ['Re', 'Fa#', 'La'],
+                 '4'  : ['Re#', 'Sol', 'La#'],
+                 '5'   : ['Mi', 'Sol#', 'Si'],
+                 '6'   : ['Fa', 'Do', 'La'],
+                 '7'  : ['Fa#', 'La#', 'Do#' ],
+                 '8'  : ['Sol', 'Si', 'Re'],
+                 '9' : ['Sol#', 'Do', 'Re#'],
+                 '10'   : ['La', 'Do#', 'Mi'],
+                 '11'  : ['La#', 'Re', 'Fa'],
+                 '12'   : ['Si', 'Re#', 'Fa#'],
+                 };
+
+let tierce;
+let quinte;
+let fondamentalClick;
+let tierceClick;
+let quinteClick;
+let numero1 = 1;
+let numero2 = 1;
+let len = 0;
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
+function check(fondamental, tierce, quinte) 
+{  
+    let fondamentalElement = document.getElementById(fondamental);
+    fondamentalElement.addEventListener("click", function() {
+        alert('ok1');
+        let fondamentalClick = true;
+        });
 
+    let tierceElement = document.getElementById(tierce);
+    tierceElement.addEventListener("click", function() {
+        alert('ok2');
+        let tierceClick = true;
+        });
 
-function findMajorChords ()
-{
-    var number = getRandomInt(majorChords.length)
-    var myChord = majorChords[number];
-    majorChords.splice(number, 1);
-    console.log(myChord);
-    console.log(myChord.notes);
-    chordDiv = document.getElementById(  myChord.name + '1');
-    chordDiv.style.backgroundColor = "red";
-    var tierce = myChord.notes[1].name + 1;
-    var quinte = myChord.notes[2].name + 1;
-    console.log(tierce);
-    
-    function check(tierce, quinte) 
-    {
-        if(tierce.IsClicked == true) {
-            tierce.style.backgroundColor = "red";
-        }if(quinte.IsClicked == true) {
-            quinte.style.backgroundColor = "red";
-        }
+    let quinteElement = document.getElementById(quinte);
+    quinteElement.addEventListener("click", function() {
+        alert('ok3');
+        let quinteClick = true; 
+        });
+
+    if(tierceClick == true) {
+        tierceElement.style.backgroundColor = "red";
+    }if(quinteClick == true) {
+        quinteElement.style.backgroundColor = "red";
+    }if(fondamentalClick == true) {
+        fondamentalElement.style.backgroundColor = "red";
     }
+}      
+
+function findMajorChords()
+{   console.log(majorChords)
+    let tab1 = ['Fa1', 'Fa#1', 'Sol1'];
+    let tab2 = ['Sol#1', 'La1', 'La#1', 'Si1'];
+    let number = getRandomInt(Object.keys(majorChords).length);
+    let myChord = majorChords[number];
+    console.log(myChord)
+    // majorChords.splice(number, 1);
+    chordDiv = document.getElementById(  myChord[0] + '1');
+    chordDiv.style.backgroundColor = "red";
+    fondamental = myChord[0] + '1';
+
+    console.log(fondamental)
+    if(tab1.includes(fondamental)) {
+        numero1 = 1
+        numero2 = 2
+    }if(tab2.includes(fondamental)){
+        numero1 = 2
+        numero2 = 2
+    }
+    tierce = myChord[1] + numero1;
+    quinte = myChord[2] + numero2;
+    numero1 = 1;
+    numero2 = 1
+    console.log(tierce)
+    console.log(quinte)
 }
+
+
 </script>
 {% endblock %}

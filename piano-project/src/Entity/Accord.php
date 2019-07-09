@@ -33,6 +33,11 @@ class Accord
      */
     private $mode;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $fondamental;
+
     public function __construct()
     {
         $this->notes = new ArrayCollection();
@@ -89,6 +94,18 @@ class Accord
     public function setMode(string $mode): self
     {
         $this->mode = $mode;
+
+        return $this;
+    }
+
+    public function getFondamental(): ?string
+    {
+        return $this->fondamental;
+    }
+
+    public function setFondamental(string $fondamental): self
+    {
+        $this->fondamental = $fondamental;
 
         return $this;
     }

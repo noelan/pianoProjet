@@ -15,16 +15,16 @@ class AccordFixtures extends Fixture implements DependentFixtureInterface
     {
     	$notes = [
                  'Do'   => ['Do', 'Mi', 'Sol'],
-                 'Do#'  => ['Do#', 'Mi#', 'Sol#'],
+                 'Do#'  => ['Do#', 'Fa', 'Sol#'],
                  'Re'   => ['Re', 'Fa#', 'La'],
                  'Re#'  => ['Re#', 'Sol', 'La#'],
                  'Mi'   => ['Mi', 'Sol#', 'Si'],
-                 'Fa'   => ['Fa', 'La', 'Do'],
+                 'Fa'   => ['Fa', 'Do', 'La'],
                  'Fa#'  => ['Fa#', 'La#', 'Do#' ],
                  'Sol'  => ['Sol', 'Si', 'Re'],
-                 'Sol#' => ['Sol#', 'Si#', 'Re#'],
-                 'La'   => ['La', 'Do', 'Mi'],
-                 'La#'  => ['La#', 'Re', 'Mi#'],
+                 'Sol#' => ['Sol#', 'Do', 'Re#'],
+                 'La'   => ['La', 'Do#', 'Mi'],
+                 'La#'  => ['La#', 'Re', 'Fa'],
                  'Si'   => ['Si', 'Re#', 'Fa#'],
                  ];
    
@@ -32,6 +32,7 @@ class AccordFixtures extends Fixture implements DependentFixtureInterface
     		$accord = New Accord();
     		$accord->setName($noteName);
             $accord->setMode('Majeur');
+            $accord->setFondamental($noteName);
             foreach ($value as $note) {
                 $accord->addNote($this->getReference($note));
             }

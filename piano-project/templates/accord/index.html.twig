@@ -11,6 +11,7 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>actions</th>
+                <th>Notes</th>
             </tr>
         </thead>
         <tbody>
@@ -21,6 +22,11 @@
                 <td>
                     <a href="{{ path('accord_show', {'id': accord.id}) }}">show</a>
                     <a href="{{ path('accord_edit', {'id': accord.id}) }}">edit</a>
+                </td>
+                <td>
+                {% for note in accord.notes %}
+                    {{ note.name ~ ", " }}
+                {% endfor %}
                 </td>
             </tr>
         {% else %}

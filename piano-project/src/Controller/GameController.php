@@ -25,9 +25,7 @@ class GameController extends AbstractController
                        ->getRepository(Accord::class)
                        // ->findBy(['mode' => 'Majeur']);  
                        ->findAllChords();
-        $chordsSerialized = $serializer->serialize($majorChords, 'json', ['circular_reference_handler' => function ($object) {
-        return $object->getId();
-        }]);             
+        $chordsSerialized = $serializer->serialize($majorChords, 'json');             
         return $this->render('home/jeu/accord.html.twig', ['majorChords' => $chordsSerialized]);
      } 
 }

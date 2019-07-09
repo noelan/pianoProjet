@@ -23,11 +23,6 @@ class Note
      */
     private $name;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Accord", mappedBy="notes")
-     */
-    private $accords;
-
     public function __construct()
     {
         $this->accords = new ArrayCollection();
@@ -46,34 +41,6 @@ class Note
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Accord[]
-     */
-    public function getAccords(): Collection
-    {
-        return $this->accords;
-    }
-
-    public function addAccord(Accord $accord): self
-    {
-        if (!$this->accords->contains($accord)) {
-            $this->accords[] = $accord;
-            $accord->addNote($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAccord(Accord $accord): self
-    {
-        if ($this->accords->contains($accord)) {
-            $this->accords->removeElement($accord);
-            $accord->removeNote($this);
-        }
 
         return $this;
     }
