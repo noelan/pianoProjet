@@ -2,15 +2,24 @@
 {% block title %} Hello ! {% endblock %}
 {% block body %}
 <body onload="note()">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center"> 
         <h1>Trouver l'accord majeur</h1>
-        <p onclick="findMajorChords()" class="btn btn-info">go</p>
-        <div onclick="check(fondamental, tierce, quinte)" id="piano" style="display:flex;">
-        </div>
     </div>
+    <div class="row justify-content-center"> 
+        <h3 id="noteToFind"></h3>
+    </div>
+    <div class="row justify-content-center"> 
+        <div id="papaDiv">
+            <div onclick="check(fondamental, tierce, quinte)" id="piano" style="display:flex;">
+            </div>
+        </div>    
+    </div>
+
 </body>
 
 <script type="text/javascript">
+let piano = document.getElementById('piano'); 
+
 	//note
 const C4 = new Audio("../sounds/C4.mp3");
 const Db4 = new Audio("../sounds/Db4.mp3");
@@ -65,7 +74,7 @@ function note()
     let margin = 40;       
     for (let i = 0 ; i < 3; i++) {
         let notes = ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Si']
-        let piano = document.getElementById('piano')
+        
         notes.forEach(function(note) {
             let myNote = "div" + note;
             myNote = document.createElement('div');
@@ -84,7 +93,7 @@ function note()
                 note = getNote(note)
                 note.play();
                 myNote.appendChild(p)
-            });   
+            }); 
             piano.appendChild(myNote)
         })
 
@@ -113,15 +122,16 @@ function note()
             }); 
             myNote.style.position = "absolute";
             myNote.style.marginLeft = margin + "px";
-            piano.appendChild(myNote)
+            piano.appendChild(myNote);
 
             if(margin == 100 || margin == 340 || margin == 520 || margin == 760 || margin == 940) {
-                margin += 120
+                margin += 120;
             }else {
                 margin += 60;
             }
         });
     }
+    findMajorChords();
 }   
 
 //let majorChords = JSON.parse({{ majorChords|json_encode|raw }});
@@ -131,13 +141,28 @@ let majorChords = {
                  '3'   : ['Re', 'Fa#', 'La'],
                  '4'  : ['Re#', 'Sol', 'La#'],
                  '5'   : ['Mi', 'Sol#', 'Si'],
-                 '6'   : ['Fa', 'Do', 'La'],
+                 '6'   : ['Fa', 'La', 'Do'],
                  '7'  : ['Fa#', 'La#', 'Do#' ],
                  '8'  : ['Sol', 'Si', 'Re'],
                  '9' : ['Sol#', 'Do', 'Re#'],
                  '10'   : ['La', 'Do#', 'Mi'],
                  '11'  : ['La#', 'Re', 'Fa'],
                  '12'   : ['Si', 'Re#', 'Fa#'],
+                 };
+
+let minorChords = {
+                 '1'   : ['Do', 'Re#', 'Sol'],
+                 '2'  : ['Do#', 'Mi', 'Sol#'],
+                 '3'   : ['Re', 'Fa', 'La'],
+                 '4'  : ['Re#', 'Fa#', 'La#'],
+                 '5'   : ['Mi', 'Sol', 'Si'],
+                 '6'   : ['Fa', 'Sol#', 'Do'],
+                 '7'  : ['Fa#', 'La', 'Do#' ],
+                 '8'  : ['Sol', 'La#', 'Re'],
+                 '9' : ['Sol#', 'Si', 'Re#'],
+                 '10'   : ['La', 'Do', 'Mi'],
+                 '11'  : ['La#', 'Do#', 'Fa'],
+                 '12'   : ['Si', 'Re', 'Fa#'],
                  };
 
 let tierce;
@@ -148,53 +173,55 @@ let quinteClick;
 let numero1 = 1;
 let numero2 = 1;
 let len = 0;
-
+let fondamentalElement;
+let tierceElement;
+let quinteElement;
+let tabUsed;
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-function check(fondamental, tierce, quinte) 
+function reset() {
+    tierceClick = false;
+    quinteClick = false;
+    fondamentalClick = false;
+    while (piano.lastElementChild) {
+        piano.removeChild(piano.lastElementChild);
+    }
+    console.log(piano);
+    note();
+}
+
+function check(note) 
 {  
-    let fondamentalElement = document.getElementById(fondamental);
-    fondamentalElement.addEventListener("click", function() {
-        alert('ok1');
-        let fondamentalClick = true;
-        });
-
-    let tierceElement = document.getElementById(tierce);
-    tierceElement.addEventListener("click", function() {
-        alert('ok2');
-        let tierceClick = true;
-        });
-
-    let quinteElement = document.getElementById(quinte);
-    quinteElement.addEventListener("click", function() {
-        alert('ok3');
-        let quinteClick = true; 
-        });
-
     if(tierceClick == true) {
-        tierceElement.style.backgroundColor = "red";
+        tierceElement.style.backgroundColor = "green";
     }if(quinteClick == true) {
-        quinteElement.style.backgroundColor = "red";
+        quinteElement.style.backgroundColor = "green";
     }if(fondamentalClick == true) {
-        fondamentalElement.style.backgroundColor = "red";
+        fondamentalElement.style.backgroundColor = "green";
+    }if(tierceClick == true && quinteClick == true && fondamentalClick == true) {
+        alert("bravo vous avez trouvé l'accord")
+        reset()
     }
 }      
 
-function findMajorChords()
-{   console.log(majorChords)
+function findMajorChords(mode)
+{   
+    if(mode == 'majeur') {
+    tabUsed = majorChords; 
+    }if(mode == 'mineur') {
+        tabUsed = minorChords;
+    }
     let tab1 = ['Fa1', 'Fa#1', 'Sol1'];
     let tab2 = ['Sol#1', 'La1', 'La#1', 'Si1'];
-    let number = getRandomInt(Object.keys(majorChords).length);
-    let myChord = majorChords[number];
-    console.log(myChord)
-    // majorChords.splice(number, 1);
+    let number = getRandomInt(Object.keys(tabUsed).length);
+    let myChord = tabUsed[number];
     chordDiv = document.getElementById(  myChord[0] + '1');
-    chordDiv.style.backgroundColor = "red";
     fondamental = myChord[0] + '1';
+    let noteToFind = document.getElementById('noteToFind');
+    noteToFind.innerHTML = "Accord de " + myChord[0]
 
-    console.log(fondamental)
     if(tab1.includes(fondamental)) {
         numero1 = 1
         numero2 = 2
@@ -206,8 +233,21 @@ function findMajorChords()
     quinte = myChord[2] + numero2;
     numero1 = 1;
     numero2 = 1
-    console.log(tierce)
-    console.log(quinte)
+
+    fondamentalElement = document.getElementById(fondamental);
+    fondamentalElement.addEventListener("click", function() {
+        fondamentalClick = true;
+        });
+
+    tierceElement = document.getElementById(tierce);
+    tierceElement.addEventListener("click", function() {
+        tierceClick = true;
+        });
+
+    quinteElement = document.getElementById(quinte);
+    quinteElement.addEventListener("click", function() {
+        quinteClick = true; 
+        });
 }
 
 
