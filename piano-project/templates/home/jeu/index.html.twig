@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% block title %} Hello ! {% endblock %}
+{% block body %}
+<body onload="note()">
+    <div class="row justify-content-center"> 
+        <h1>Exerce toi à trouver des accords</h1>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-3">
+                <ul class="list-group">
+                    <a href="{{ path('findChords', {'mode':'majeur'}) }}"> 
+                      <li class="list-group-item">Majeur</li>
+                    </a> 
+                    <a href="{{ path('findChords', {'mode':'mineur'}) }}" 
+                      <li class="list-group-item">Mineur</li>
+                    </a>
+                    <a href="{{ path('findChords', {'mode':'majeur_renversement'}) }}"> 
+                      <li class="list-group-item">Majeur et renversement</li>
+                    </a> 
+                    <a href="{{ path('findChords', {'mode':'mineur_renversement'}) }}" 
+                      <li class="list-group-item">Mineur et renversement</li>
+                    </a>    
+    
+                </ul>
+        </div>
+    </div>
+</body>
+{% endblock %}

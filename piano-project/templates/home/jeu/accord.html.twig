@@ -2,8 +2,9 @@
 {% block title %} Hello ! {% endblock %}
 {% block body %}
 <body onload="note()">
+    <h1 onclick="findRenversement()" class ="btn">Go</h1>
     <div class="row justify-content-center"> 
-        <h1>Trouver l'accord majeur</h1>
+        <h1>Trouver l'accord {{ mode|replace({'"' : ""})|capitalize }}</h1>
     </div>
     <div class="row justify-content-center"> 
         <h3 id="noteToFind"></h3>
@@ -131,10 +132,12 @@ function note()
             }
         });
     }
-    findMajorChords();
+
+    let mode = JSON.parse({{ mode|json_encode|raw }});
+    findMajorChords(mode);
 }   
 
-//let majorChords = JSON.parse({{ majorChords|json_encode|raw }});
+
 let majorChords = {
                  '1'   : ['Do', 'Mi', 'Sol'],
                  '2'  : ['Do#', 'Fa', 'Sol#'],
@@ -177,8 +180,14 @@ let fondamentalElement;
 let tierceElement;
 let quinteElement;
 let tabUsed;
+
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
+}
+
+function shuffle(array)
+{
+    array.sort(() => Math.random() - 0.5);
 }
 
 function reset() {
@@ -213,9 +222,10 @@ function findMajorChords(mode)
     }if(mode == 'mineur') {
         tabUsed = minorChords;
     }
+    console.log(tabUsed);
     let tab1 = ['Fa1', 'Fa#1', 'Sol1'];
     let tab2 = ['Sol#1', 'La1', 'La#1', 'Si1'];
-    let number = getRandomInt(Object.keys(tabUsed).length);
+    let number = getRandomInt(Object.keys(majorChords).length);
     let myChord = tabUsed[number];
     chordDiv = document.getElementById(  myChord[0] + '1');
     fondamental = myChord[0] + '1';
@@ -227,6 +237,9 @@ function findMajorChords(mode)
         numero2 = 2
     }if(tab2.includes(fondamental)){
         numero1 = 2
+        numero2 = 2
+    }if(tab2.includes(fondamental) && mode == 'mineur' && fondamental != 'La#1' && fondamental != 'La1'){
+        numero1 = 1
         numero2 = 2
     }
     tierce = myChord[1] + numero1;
@@ -248,6 +261,17 @@ function findMajorChords(mode)
     quinteElement.addEventListener("click", function() {
         quinteClick = true; 
         });
+    console.log(tierce)
+    console.log(quinte)
+}
+
+function findRenversement() 
+{
+    tabUsed = majorChords;
+    Object.keys(tabUsed).map(function(objectKey, index) {
+        let value = shuffle(tabUsed[objectKey]);
+        console.log(value); 
+    })
 }
 
 

@@ -16,16 +16,27 @@ use App\Entity\Accord;
 
 class GameController extends AbstractController
 {   
+
     /**
-     * @Route("/majorChords", name="jeu_majorChords")
+      * @Route("/findChords/index", name="findChords_index")
+      */
+      public function index() 
+      {
+        return $this->render('home/jeu/index.html.twig');
+      }
+        
+    /**
+     * @Route("/findChords/{mode}", name="findChords")
      */ 
-     public function findMajorChord(SerializerInterface $serializer) 
+    // Trouver un accord par rapport a son mode
+     public function findChord(SerializerInterface $serializer, $mode) 
      {  
-        $majorChords = $this->getDoctrine()
-                       ->getRepository(Accord::class)
-                       // ->findBy(['mode' => 'Majeur']);  
-                       ->findAllChords();
-        $chordsSerialized = $serializer->serialize($majorChords, 'json');             
-        return $this->render('home/jeu/accord.html.twig', ['majorChords' => $chordsSerialized]);
-     } 
+        // $majorChords = $this->getDoctrine()
+        //                ->getRepository(Accord::class)
+        //                // ->findBy(['mode' => 'Majeur']);  
+        //                ->findAllChords();
+        // $chordsSerialized = $serializer->serialize($majorChords, 'json');
+        $mode = $serializer->serialize($mode, 'json');  
+        return $this->render('home/jeu/accord.html.twig', ['mode' => $mode]);
+     }
 }
