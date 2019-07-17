@@ -133,11 +133,16 @@ function note()
         });
     }
 
-    let mode = JSON.parse({{ mode|json_encode|raw }});
+    
+    if(mode == "majeur_renversement") {
+        findRenversement();
+    }else {
+        findMajorChords(mode);
+    }
     //findMajorChords(mode);   
 }   
 
-
+let mode = JSON.parse({{ mode|json_encode|raw }});
 let majorChords = {
                  '1'   : ['Do', 'Mi', 'Sol'],
                  '2'  : ['Do#', 'Fa', 'Sol#'],
@@ -185,18 +190,17 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-function shuffle(array)
-{
-    array.sort(() => Math.random() - 0.5);
-    return array;
-}
-
 function reset() {
     tierceClick = false;
     quinteClick = false;
-    fondamentalClick = false;
+    fondamentaldamentalClick = false;
     while (piano.lastElementChild) {
         piano.removeChild(piano.lastElementChild);
+    }
+    if(mode == 'majeur_renversement') {
+        while(divAnswer.lastElementChild) {
+            divAnswer.removeChild(divAnswer.lastElementChild);
+        }
     }
     console.log(piano);
     note();
@@ -265,20 +269,18 @@ function findMajorChords(mode)
 
 function findRenversement() 
 {
-    tabUsed = majorChords;
-    let number = getRandomInt(Object.keys(tabUsed).length);
-    console.log(number)
+    tabUsed = majorChords
+    let number = (getRandomInt(Object.keys(tabUsed).length) + 1);
     let fondamental = tabUsed[number][0];
-    let chordShuffle = shuffle([tabUsed[number]]);
     let myChord = tabUsed[number];
-    let fondamentalNumber = getRandomInt(2);
+    let fondamentalNumber = (getRandomInt(2) + 1);
 
     fondamentalDiv = myChord[0] + fondamentalNumber;
 
     // si la fondamental est égal a 1 : tierce = 0 ou 1 else fondamental = 2 : tierce = 1 ou 2
     let tierceNumber;
     if(fondamentalNumber == 1) {
-        tierceNumber =  (getRandomInt(2) + 1);
+        tierceNumber =  getRandomInt(2);
         tierceDiv = myChord[1] + tierceNumber;
     }if(fondamentalNumber == 2) {
         tierceNumber = (getRandomInt(2) + 1)
@@ -292,16 +294,36 @@ function findRenversement()
     if(tierceNumber == 0) {
        quinteDiv = myChord[2] + 0; 
    }if(tierceNumber == 1 && fondamentalNumber == 1) {
-       quinteNumber = getRandomInt(2)   ;
+       quinteNumber = 1;
        quinteDiv = myChord[2] + quinteNumber;
    }if(tierceNumber == 1 && fondamentalNumber == 2) {
-       quinteDiv = myChord[2] + 1;
+       quinteDiv = myChord[2] + 2;
    }if(tierceNumber == 2 && fondamentalNumber == 2) {
-       quinteNumber = getRandomInt(2)
+       quinteNumber = 2;
+       quinteDiv = myChord[2] + quinteNumber;
+   }if(tierceNumber == 0 && fondamentalNumber == 1) {
+       quinteNumber = 1;
        quinteDiv = myChord[2] + quinteNumber;
    }
-   console.log(fondamentalNumber)
-    
+    console.log(tierceDiv)
+
+   /* 
+   fondamental = 1 tierce = 0
+   QUINTE 1
+   Do# FA Sol#
+   Re# Sol  
+   */
+
+   /* 
+   fondamental = 1 tierce = 1 
+   */
+           
+
+
+
+
+
+
     let chordNote = [fondamentalDiv, tierceDiv, quinteDiv];
     chordNote.forEach(function(note) {
         note = document.getElementById(note);
@@ -315,11 +337,21 @@ function findRenversement()
         myAnswer = document.createElement('div')
         myAnswer.innerHTML = note;
         myAnswer.className ="col-1.9 btn";
-        divAnswer.appendChild(myAnswer);
+       
+        myAnswer.addEventListener("click", function() {
+            if(note == fondamentalDiv.substring(0,(fondamentalDiv.length -1))) {
+                alert('trouvé');
+                reset()
+            }if(note != fondamentalDiv.substring(0,(fondamentalDiv.length -1))) {
+                myAnswer.style.backgroundColor = "red";
+            }
+        }); 
+        divAnswer.appendChild(myAnswer);     
     });
-    console.log(myChord);
+    console.log(myChord)
 }
 
 
 </script>
+
 {% endblock %}
