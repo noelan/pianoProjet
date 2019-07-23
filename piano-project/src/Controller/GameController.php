@@ -39,4 +39,12 @@ class GameController extends AbstractController
         $mode = $serializer->serialize($mode, 'json');  
         return $this->render('home/jeu/accord.html.twig', ['mode' => $mode]);
      }
+
+     /**
+      * @Route("/random", name="random")
+      */
+     public function random()
+     {
+      return $this->render('home/jeu/random.html.twig');
+     } 
 }

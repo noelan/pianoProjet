@@ -1,23 +1,21 @@
 {% extends 'base.html.twig' %}
 {% block title %} Hello ! {% endblock %}
 {% block body %}
-<br/><br/><br/><br/><br/>
-<div class="row justify-content-center">
-	<h1 onclick="interval()" id="note" style="font-size:150px;">Go</h1>
+<h1 class="myTitle text-center">Apprendre le solfège</h1>
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-8">
+			<h2 class="text-center">Qu'est ce que le solfège exactement</h2>
+			<p class="myP text-justify" style="color:white">
+			Le solfège est l'étude de la théorie musicale et de sa notation. Ainsi le solfège permet à celui qui l'étudie de lire une partition de musique, d'écrire de la musique et de l'interpréter. L'apprentissage du solfège peut être fastidieux mais c'est un excellent support pour la musique. Apprendre la musique nécessite souvent d'apprendre le solfège. Notez que le solfège est de tradition occidentale et que ce n'est pas le seul moyen d’apprendre la musique.
+			</p>
+		</div>
+		<div class="col-8">
+			<h2 class="text-center">Apprendre avec des jeux</h2>
+			<p class="text-justify myP" style="color:white;">
+			Je trouve cela plus simple d'apprendre le solfège à travers des jeux c'est pourquoi le site aura peu de théorie mais beaucoup d'exercice sous forme de jeux.
+			</p>
+		</div>	
+	</div>
 </div>
-<script type="text/javascript">
-	function getRandomInt(max) {
-	  return Math.floor(Math.random() * Math.floor(max));
-	}
-
-	function interval() {
-		intervalID = setInterval(random,5000);
-	}
-	function random() {
-		console.log('ok')
-		let tab = ['Do', 'Do#', 'Re', 'Re#', 'Mi', 'Fa', 'Fa#', 'Sol', 'Sol#', 'La', 'La#', 'Si'];
-		let note = document.getElementById('note');
-		note.innerHTML = tab[getRandomInt(tab.length)];
-	}
-</script>
 {% endblock %}

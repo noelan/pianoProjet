@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block title %} Hello ! {% endblock %}
+{% block body %}
+
+<div class="container">
+	<h1>Bonjour voici la liste des gammes {{ mode|capitalize }} et leur doigtés</h1>
+	
+	<p>Major scales are the most important piano scales: firstly, because they are very common and, secondly, because they are fundamental to understand keys. If you hear someone mention that a piano sonata by the composer and pianist Franz Schubert is played in A Major, it means that it depends on the A Scale. </p>
+
+	<div class="row">	
+{% for note in notes %}
+	{% if note.name == 'Mi#' or note.name == 'Si#' %}
+	{% else %}
+	
+		<div class="col-4 p-2">
+			<img src="/{{ mode }}/{{note.name|replace({'#': 'Sharp'}) ~ mode|capitalize ~ '.png'}}">
+		</div>		
+	{% endif %}
+{% endfor %}
+	</div>
+</div>	
+{% endblock %}
+
